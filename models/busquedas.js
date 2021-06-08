@@ -17,20 +17,14 @@ class Busquedas {
             // Dividir cada registro en un arreglo de palabras
             let palabras = registro.split(' ');
 
-            // Capitalizar la primera letra de cada palabra
-            const palabrasCapitalizadas = palabras.map( palabra => {
-                return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+            // Capitalizar la primera letra de cada palabra 
+            palabras = palabras.map( palabra => {
+                return palabra[0].toUpperCase() + palabra.substring(1);
             } );
-
-            let registroFormateado = "";
         
-            // Unir el arreglo de palabras en un string
-            palabrasCapitalizadas.forEach( palabraCap => {
-                registroFormateado = registroFormateado + palabraCap + " ";
-            });
 
-            // Mapear el string de registro por el registro capitalizado
-            return registroFormateado;
+            // Unir y mapear el string de registro por el registro capitalizado
+            return palabras.join(' ');
         });
     }
 
@@ -102,6 +96,8 @@ class Busquedas {
             return;
         }
 
+        this.historial = this.historial.splice( 0, 4 );
+
         this.historial.unshift( lugar.toLowerCase() );
 
         // Grabar en DB
@@ -124,9 +120,9 @@ class Busquedas {
         }
 
         const info = fs.readFileSync( this.dbPath, { encoding: 'utf-8' } );
-        const historial = JSON.parse( info );
+        const data = JSON.parse( info );
 
-        this.historial = historial.historial;
+        this.historial = data.historial;
     }
 }
 
